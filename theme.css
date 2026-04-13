@@ -232,6 +232,8 @@ body {
   flex-direction: column;
   align-items: stretch;
   gap: 1rem;
+  position: relative;
+  padding-bottom: 3rem;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -239,8 +241,12 @@ body {
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .toolbar {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   padding: 0 0.125rem;
 }
 
@@ -251,15 +257,15 @@ body {
 .theme-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.3rem 0.4rem;
-  border-radius: 8px;
+  padding: 0.4rem 0.5rem;
+  border-radius: 10px;
   color: var(--clr-text-muted);
   font-family: 'Instrument Sans', sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 0.04em;
   transition: color 0.25s ease;
@@ -278,22 +284,22 @@ body {
 
 .theme-btn__track {
   position: relative;
-  width: 44px;
-  height: 24px;
+  width: 60px;
+  height: 32px;
   background: var(--clr-toggle-track);
-  border-radius: 12px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 5px;
+  padding: 0 6px;
   flex-shrink: 0;
   transition: background 0.3s ease;
   overflow: hidden;
 }
 
 .icon {
-  width: 11px;
-  height: 11px;
+  width: 14px;
+  height: 14px;
   color: var(--clr-toggle-icon);
   flex-shrink: 0;
   transition: color 0.3s ease, opacity 0.3s ease;
@@ -303,10 +309,10 @@ body {
 
 .theme-btn__thumb {
   position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 18px;
-  height: 18px;
+  top: 4px;
+  left: 4px;
+  width: 24px;
+  height: 24px;
   background: var(--clr-toggle-thumb);
   border-radius: 50%;
   z-index: 2;
@@ -316,11 +322,11 @@ body {
 }
 
 [data-theme="light"] .theme-btn__thumb {
-  transform: translateX(20px);
+  transform: translateX(24px);
 }
 
 .theme-btn__label {
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   letter-spacing: 0.05em;
   text-transform: lowercase;
   color: var(--clr-text-muted);
