@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo Task Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Skip link for keyboard users -->
+  <a href="#task-card" class="skip-link">Skip to task</a>
+
+  <div class="page-wrapper">
+
+    <!-- Theme toggle -->
+    <div class="toolbar" role="toolbar" aria-label="Display settings">
+      <button
+        id="theme-toggle"
+        class="theme-btn"
+        type="button"
+        aria-label="Switch to light mode"
+        aria-pressed="false"
+      >
+        <span class="theme-btn__track" aria-hidden="true">
+          <span class="theme-btn__thumb"></span>
+          <svg class="icon icon--sun" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="10" cy="10" r="3.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.34 4.34l1.42 1.42M14.24 14.24l1.42 1.42M4.34 15.66l1.42-1.42M14.24 5.76l1.42-1.42" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon icon--moon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M17.5 11.67A7.5 7.5 0 0 1 8.33 2.5a7.5 7.5 0 1 0 9.17 9.17Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="theme-btn__label" aria-hidden="true">Light mode</span>
+      </button>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         TASK CARD — all required data-testid attrs
+         ══════════════════════════════════════════ -->
+    <article
+      id="task-card"
+      class="todo-card"
+      data-testid="test-todo-card"
+      aria-labelledby="todo-title"
+    >
+
+      <!-- ── Top bar: checkbox + title + priority ── -->
+      <div class="todo-card__topbar">
+
+        <!-- Checkbox -->
+        <div class="checkbox-cell">
+          <label class="checkbox-label" for="complete-toggle">
+            <input
+              type="checkbox"
+              id="complete-toggle"
+              class="checkbox-input"
+              data-testid="test-todo-complete-toggle"
+              aria-describedby="todo-title"
+            />
+            <span class="checkbox-visual" aria-hidden="true">
+              <svg class="check-svg" viewBox="0 0 10 8" fill="none" aria-hidden="true">
+                <path d="M1 4L3.8 7L9 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="sr-only">Mark task complete</span>
+          </label>
+        </div>
+
+        <!-- Title + status row -->
+        <div class="todo-card__title-group">
+          <h2
+            class="todo-card__title"
+            id="todo-title"
+            data-testid="test-todo-title"
+          >
+            Create A TODO Task Card With No Frameworks
+          </h2>
+
+          <span
+            class="status-badge"
+            data-testid="test-todo-status"
+            data-status="pending"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            aria-label="Task status: Pending"
+          >
+            <span class="status-badge__dot" aria-hidden="true"></span>
+            Pending
+          </span>
+        </div>
+
+        <!-- Priority -->
+        <span
+          class="priority-badge"
+          data-testid="test-todo-priority"
+          data-priority="high"
+          aria-label="Priority: High"
+        >
+          High
+        </span>
+
+      </div><!-- /.todo-card__topbar -->
+
+      <!-- ── Description ── -->
+      <p
+        class="todo-card__description"
+        data-testid="test-todo-description"
+      >
+        Create a responsive TODO task card component with no external frameworks.
+      </p>
+
+      <!-- ── Due date + time remaining ── -->
+      <div class="todo-card__meta">
+        <div class="meta-group">
+          <svg class="meta-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="2" y="3" width="12" height="11" rx="2" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M5 1v2M11 1v2M2 6.5h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+          <time
+            class="due-date"
+            data-testid="test-todo-due-date"
+            datetime="2026-04-16T18:00:00"
+          >
+            Due Apr 16, 2026
+          </time>
+        </div>
+
+        <div class="meta-group">
+          <svg class="meta-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M8 5v3.5l2.5 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span
+            class="time-remaining"
+            data-testid="test-todo-time-remaining"
+            aria-live="polite"
+            aria-atomic="true"
+            aria-label="Time remaining: calculating"
+          >
+            Calculating…
+          </span>
+        </div>
+      </div>
+
+      <!-- ── Tags ── -->
+      <ul
+        class="tag-list"
+        data-testid="test-todo-tags"
+        role="list"
+        aria-label="Task tags"
+      >
+        <li class="tag" data-testid="test-todo-tag-work" role="listitem">HNG</li>
+        <li class="tag" data-testid="test-todo-tag-urgent" role="listitem">Stage -0</li>
+        <li class="tag" data-testid="test-todo-tag-design" role="listitem">Frontend</li>
+      </ul>
+
+      <!-- ── Divider ── -->
+      <hr class="todo-card__divider" aria-hidden="true" />
+
+      <!-- ── Actions ── -->
+      <div class="todo-card__actions">
+        <button
+          type="button"
+          class="action-btn action-btn--edit"
+          data-testid="test-todo-edit-button"
+          aria-label="Edit task: Redesign the Onboarding Flow"
+        >
+          <svg class="action-btn__icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M2 14h2.5l7.5-7.5-2.5-2.5L2 11.5V14ZM12.5 2.5a1.77 1.77 0 0 1 2.5 2.5l-1 1-2.5-2.5 1-1Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+          </svg>
+          <span>Edit</span>
+        </button>
+
+        <button
+          type="button"
+          class="action-btn action-btn--delete"
+          data-testid="test-todo-delete-button"
+          aria-label="Delete task: Redesign the Onboarding Flow"
+        >
+          <svg class="action-btn__icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M2.5 4.5h11M6 4.5V3h4v1.5M5 4.5l.5 8h5l.5-8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M7 7v3.5M9 7v3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+          <span>Delete</span>
+        </button>
+      </div>
+
+    </article>
+    <!-- /.todo-card -->
+
+  </div><!-- /.page-wrapper -->
+
+  <script src="script.js"></script>
+</body>
+</html>
