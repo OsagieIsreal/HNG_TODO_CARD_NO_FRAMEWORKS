@@ -110,15 +110,55 @@
 
       </div><!-- /.todo-card__topbar -->
 
-      <!-- ── Description ── -->
-      <p
-        class="todo-card__description"
-        data-testid="test-todo-description"
+      <!-- ── Status Control ── -->
+      <div
+        class="status-control"
+        data-testid="test-todo-status-control"
+        role="group"
+        aria-label="Task status"
       >
-        Create a responsive TODO task card component with no external frameworks.
-      </p>
+        <label class="status-control__label" for="status-select">Status:</label>
+        <select
+          id="status-select"
+          class="status-control__select"
+          aria-label="Change task status"
+        >
+          <option value="pending">Pending</option>
+          <option value="in-progress">In Progress</option>
+          <option value="done">Done</option>
+        </select>
+      </div>
 
-      <!-- ── Due date + time remaining ── -->
+      <!-- ── Description + Expand/Collapse ── -->
+      <div class="description-section">
+        <button
+          type="button"
+          class="expand-toggle"
+          data-testid="test-todo-expand-toggle"
+          aria-expanded="false"
+          aria-controls="description-content"
+          aria-label="Expand description"
+        >
+          <svg class="expand-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <p
+          class="todo-card__description"
+          id="description-content"
+          data-testid="test-todo-description"
+        >
+          Create a responsive TODO task card component with no external frameworks.
+        </p>
+      </div>
+      <div
+        class="todo-card__collapsible-section"
+        id="collapsible-section"
+        data-testid="test-todo-collapsible-section"
+        aria-hidden="true"
+      ></div>
+
+      <!-- ── Due date + time remaining + overdue ── -->
       <div class="todo-card__meta">
         <div class="meta-group">
           <svg class="meta-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -148,6 +188,22 @@
           >
             Calculating…
           </span>
+        </div>
+
+        <div
+          class="overdue-indicator"
+          data-testid="test-todo-overdue-indicator"
+          role="status"
+          aria-live="polite"
+          aria-label="Not overdue"
+          hidden
+        >
+          <svg class="overdue-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M8 5v3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <circle cx="8" cy="12" r="0.8" fill="currentColor"/>
+          </svg>
+          <span class="overdue-text">Overdue</span>
         </div>
       </div>
 
@@ -193,6 +249,81 @@
           <span>Delete</span>
         </button>
       </div>
+
+      <!-- ── Edit Form (hidden by default) ── -->
+      <form
+        data-testid="test-todo-edit-form"
+        hidden
+        class="todo-edit-form"
+        aria-label="Edit task form"
+      >
+        <fieldset class="edit-fieldset">
+          <div class="form-group" data-field="title">
+            <label for="edit-title" class="form-label">Title</label>
+            <input
+              type="text"
+              id="edit-title"
+              data-testid="test-todo-edit-title-input"
+              class="form-input"
+              placeholder="Task title"
+              required
+            />
+          </div>
+
+          <div class="form-group" data-field="description">
+            <label for="edit-description" class="form-label">Description</label>
+            <textarea
+              id="edit-description"
+              data-testid="test-todo-edit-description-input"
+              class="form-textarea"
+              placeholder="Task description"
+              rows="4"
+            ></textarea>
+          </div>
+
+          <div class="form-group" data-field="priority">
+            <label for="edit-priority" class="form-label">Priority</label>
+            <select
+              id="edit-priority"
+              data-testid="test-todo-edit-priority-select"
+              class="form-select"
+              required
+            >
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+
+          <div class="form-group" data-field="due-date">
+            <label for="edit-due-date" class="form-label">Due Date</label>
+            <input
+              type="datetime-local"
+              id="edit-due-date"
+              data-testid="test-todo-edit-due-date-input"
+              class="form-input"
+              required
+            />
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="submit"
+              data-testid="test-todo-save-button"
+              class="form-btn form-btn--save"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              data-testid="test-todo-cancel-button"
+              class="form-btn form-btn--cancel"
+            >
+              Cancel
+            </button>
+          </div>
+        </fieldset>
+      </form>
 
     </article>
     <!-- /.todo-card -->
