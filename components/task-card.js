@@ -30,6 +30,7 @@
   const overdueIndicator    = document.querySelector('[data-testid="test-todo-overdue-indicator"]');
   const descriptionEl       = document.querySelector('[data-testid="test-todo-description"]');
   const expandToggle        = document.querySelector('[data-testid="test-todo-expand-toggle"]');
+  const dueDateEl           = document.querySelector('[data-testid="test-todo-due-date"]');
   const editBtn             = document.querySelector('[data-testid="test-todo-edit-button"]');
   const deleteBtn           = document.querySelector('[data-testid="test-todo-delete-button"]');
   const editForm            = document.querySelector('[data-testid="test-todo-edit-form"]');
@@ -61,7 +62,20 @@
     // UI state flags
     isEditing: false,
     isExpanded: false,
+
+    // Theme
+    theme: 'dark',
   };
+
+  // Initialize theme from localStorage
+  try {
+    const saved = localStorage.getItem('todo-card-theme');
+    if (saved === 'light' || saved === 'dark') {
+      state.theme = saved;
+    }
+  } catch (_) {
+    /* ignore */
+  }
 
   let timeUpdateInterval = null;
 
@@ -92,8 +106,10 @@
     renderDescription();
     renderStatus();
     renderPriority();
+    renderDueDate();
     renderEditingMode();
     renderTimeRemaining();
+    renderTheme();
   }
 
   /**
@@ -172,6 +188,20 @@
   }
 
   /**
+   * Renders the due date from state
+   */
+  function renderDueDate() {
+    const date = state.dueDate;
+    const iso = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+      .toISOString()
+      .split('T')[0];
+    const formatted = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    
+    dueDateEl.setAttribute('datetime', iso + 'T18:00:00');
+    dueDateEl.textContent = `Due ${formatted}`;
+  }
+
+  /**
    * Renders the editing mode UI
    */
   function renderEditingMode() {
@@ -202,6 +232,29 @@
       });
       // Return focus to edit button
       editBtn?.focus();
+    }
+  }
+
+  /**
+   * Renders the theme from state
+   */
+  function renderTheme() {
+    html.setAttribute('data-theme', state.theme);
+
+    try {
+      localStorage.setItem('todo-card-theme', state.theme);
+    } catch (_) {
+      /* ignore in restricted environments */
+    }
+
+    if (state.theme === 'light') {
+      toggleLabel.textContent = 'Dark mode';
+      themeToggleBtn.setAttribute('aria-label', 'Switch to dark mode');
+      themeToggleBtn.setAttribute('aria-pressed', 'true');
+    } else {
+      toggleLabel.textContent = 'Light mode';
+      themeToggleBtn.setAttribute('aria-label', 'Switch to light mode');
+      themeToggleBtn.setAttribute('aria-pressed', 'false');
     }
   }
 
@@ -422,53 +475,18 @@
   ────────────────────────────────────────────────── */
 
   // Sync UI with initial state
-  // This ensures status badge, priority, and checkbox are properly initialized
+  // This ensures status badge, priority, checkbox, and theme are properly initialized
   renderStatus();
   renderPriority();
+  renderTheme();
 
   /* ──────────────────────────────────────────────────
      THEME TOGGLE
   ────────────────────────────────────────────────── */
 
-  /**
-   * Apply a theme and persist it.
-   * @param {'dark'|'light'} theme
-   */
-  function applyTheme(theme) {
-    html.setAttribute('data-theme', theme);
-
-    try {
-      localStorage.setItem('todo-card-theme', theme);
-    } catch (_) {
-      /* ignore in restricted environments */
-    }
-
-    if (theme === 'light') {
-      toggleLabel.textContent = 'Dark mode';
-      themeToggleBtn.setAttribute('aria-label', 'Switch to dark mode');
-      themeToggleBtn.setAttribute('aria-pressed', 'true');
-    } else {
-      toggleLabel.textContent = 'Light mode';
-      themeToggleBtn.setAttribute('aria-label', 'Switch to light mode');
-      themeToggleBtn.setAttribute('aria-pressed', 'false');
-    }
-  }
-
-  // Restore saved theme preference on load
-  (function restoreSavedTheme() {
-    try {
-      const saved = localStorage.getItem('todo-card-theme');
-      if (saved === 'light' || saved === 'dark') {
-        applyTheme(saved);
-      }
-    } catch (_) {
-      /* ignore */
-    }
-  }());
-
   themeToggleBtn.addEventListener('click', function () {
-    const current = html.getAttribute('data-theme') || 'dark';
-    applyTheme(current === 'dark' ? 'light' : 'dark');
+    const newTheme = state.theme === 'dark' ? 'light' : 'dark';
+    updateState('theme', newTheme);
   });
 
   /* ──────────────────────────────────────────────────
